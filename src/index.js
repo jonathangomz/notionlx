@@ -1,12 +1,18 @@
-const { app, dialog, BrowserWindow } = require('electron');
+const {
+  app,
+  dialog,
+  ipcMain,
+  nativeImage,
+  BrowserWindow
+} = require('electron');
+const { appTitle, userAgent } = require('./env');
 const path = require('path');
+const createTray = require('./tray');
 
 let preventTitleChange = false;
-const appTitle = 'NotionLX';
-const userAgent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.80 Safari/537.36';
+let tray;
 
-function createWindow () {
-  // Crea la ventana del navegador.
+function createWindow() {
   const win = new BrowserWindow({
     width: 1000,
     height: 600,
@@ -18,7 +24,11 @@ function createWindow () {
   });
   win.setMenu(null);
 
-  win.loadURL('https://www.notion.so/login', {'userAgent': userAgent}).then(async () => {
+  tray = createTray(app, win);
+
+  win.loadURL('https://www.notion.so/login', {
+    'userAgent': userAgent
+  }).then(async () => {
     preventTitleChange = false;
     win.setTitle(appTitle);
     preventTitleChange = true;
@@ -26,11 +36,16 @@ function createWindow () {
 
   win.on('page-title-updated', (event) => {
     if (preventTitleChange) {
-        event.preventDefault();
-        preventTitleChange = false;
-        win.setTitle(appTitle);
-        preventTitleChange = true;
+      event.preventDefault();
+      preventTitleChange = false;
+      win.setTitle(appTitle);
+      preventTitleChange = true;
     }
+  });
+
+  ipcMain.on('renderTray', function (event, data) {
+    const img = nativeImage.createFromDataURL(data);
+    tray.setImage(img);
   });
 
   win.on('close', (event) => {

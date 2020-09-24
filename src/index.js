@@ -17,7 +17,7 @@ function createWindow() {
     width: 1000,
     height: 600,
     title: 'NotionLX',
-    icon: path.join(__dirname, 'icons/notion-icon.png'),
+    icon: path.join(__dirname, 'icons/icon.png'),
     webPreferences: {
       nodeIntegration: true
     }

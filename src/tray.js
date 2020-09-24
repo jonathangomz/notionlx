@@ -22,7 +22,7 @@ function getTrayMenu(app, win) {
 }
 
 function createTray(app, win) {
-  const tray = new Tray(path.join(__dirname, 'icons/notion-icon.png'));
+  const tray = new Tray(path.join(__dirname, 'icons/icon.png'));
   const menu = Menu.buildFromTemplate(getTrayMenu(app, win));
 
   tray.setTitle(appTitle);

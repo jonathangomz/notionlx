@@ -32,7 +32,7 @@ module.exports = {
           productName: 'NotionLX',
           maintainer: 'Jonathan Gómez',
           homepage: 'https://jonathangomz.github.io/notionlx',
-          icon: 'src/icons/notion-icon.png',
+          icon: 'src/icons/icon.png',
           description: 'Simple Notion app for Linux',
           productDescription: "This is an unofficial and open source app to use Notion on Linux. It's in early version so still don't have some much support."
         }
